@@ -17,6 +17,7 @@ TEST(BST_ITERATOR_TEST, TEST_ITERATOR_INCREMENT) {
     BSTIterator<int> iter(&node);
 
     ASSERT_NE(iter, nullptr);
+    ASSERT_EQ(iter.operator*(), 3);
 
     iter++;
 

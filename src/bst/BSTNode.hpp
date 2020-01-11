@@ -21,11 +21,7 @@ class BSTNode {
     BSTNode<Data>* parent;
 
     /** TODO */
-    BSTNode(const Data& d) : data(d) {
-        left = nullptr;
-        right = nullptr;
-        parent = nullptr;
-    }
+    BSTNode(const Data& d) : data(d) { left = right = parent = nullptr; }
 
     /** Set the value of data */
     void setData(const Data& d) { data = d; }
@@ -34,7 +30,45 @@ class BSTNode {
     Data getData() { return data; }
 
     /** TODO */
-    BSTNode<Data>* successor() { return 0; }
+    BSTNode<Data>* successor() {
+        if (right != nullptr) {
+            return right->leftmostChild();
+        }
+
+        BSTNode<Data>* ancestor = parent;
+        BSTNode<Data>* current = this;
+        while (ancestor != nullptr && current != ancestor->left) {
+            ancestor = ancestor->parent;
+            current = current->parent;
+        }
+
+        return ancestor;
+    }
+
+    BSTNode<Data>* leftmostChild() {
+        // the case this node has no left child
+        if (left == nullptr) {
+            return this;
+        }
+
+        BSTNode<Data>* leftmost = this->left;
+        // going down left until hitting a leaf
+        while (leftmost->left != nullptr) {
+            leftmost = leftmost->left;
+        }
+
+        return leftmost;
+    }
+
+    void addLeft(BSTNode<Data>* node) {
+        right = node;
+        node->parent = this;
+    }
+
+    void addRight(BSTNode<Data>* node) {
+        right = node;
+        node->parent = this;
+    }
 };
 
 /**
