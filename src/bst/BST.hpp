@@ -42,7 +42,39 @@ class BST {
     ~BST() {}
 
     /** TODO */
-    bool insert(const Data& item) { return false; }
+    bool insert(const Data& item) {
+        if (insertHelper(item, root)) {
+            isize++;
+            return true;
+        }
+
+        return false;
+    }
+
+    bool insertHelper(const Data& item, BSTNode<Data>* node) {
+        if (node == nullptr) {
+            root = new BSTNode<Data>(item);
+            return true;
+        } else if (item == node->getData()) {
+            return false;
+        }
+
+        if (item < node->getData()) {
+            if (node->left == nullptr) {
+                node->left = new BSTNode<Data>(item);
+                return true;
+            }
+            return insertHelper(item, node->left);
+        } else {  // when a given item should be placed right
+            if (node->right == nullptr) {
+                node->right = new BSTNode<Data>(item);
+                return true;
+            }
+            return insertHelper(item, node->right);
+        }
+    }
+
+    Data rootValue() { return root->getData(); }
 
     /** TODO */
     iterator find(const Data& item) const { return 0; }
@@ -51,7 +83,7 @@ class BST {
     bool deleteNode(const Data& item) { return false; }
 
     /** TODO */
-    unsigned int size() const { return 0; }
+    unsigned int size() const { return isize; }
 
     /** TODO */
     int height() const { return 0; }

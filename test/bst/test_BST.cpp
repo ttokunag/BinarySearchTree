@@ -14,9 +14,20 @@ using namespace testing;
 
 /* Empty BST test starts here */
 
-TEST(BSTTests, EMPTY_TREE_HEIGHT_TEST) {
+// TEST(BSTTests, EMPTY_TREE_HEIGHT_TEST) {
+//     BST<int> bst;
+//     ASSERT_EQ(bst.height(), -1);
+// }
+
+TEST(BSTTests, INSERTION_TEST) {
     BST<int> bst;
-    ASSERT_EQ(bst.height(), -1);
+    bst.insert(8);
+    bst.insert(3);
+    bst.insert(10);
+    bst.insert(3);
+
+    ASSERT_EQ(bst.rootValue(), 8);
+    ASSERT_EQ(bst.size(), 3);
 }
 
 /* Small BST test starts here */
@@ -48,14 +59,14 @@ class SmallBSTFixture : public ::testing::Test {
     // void SetUp() {}
 };
 
-TEST_F(SmallBSTFixture, SMALL_SIZE_TEST) {
-    // assert that the small BST has the correct size
-    ASSERT_EQ(bst.size(), 5);
-}
+// TEST_F(SmallBSTFixture, SMALL_SIZE_TEST) {
+//     // assert that the small BST has the correct size
+//     ASSERT_EQ(bst.size(), 5);
+// }
 
-TEST_F(SmallBSTFixture, SMALL_INSERT_DUPLICATES_TEST) {
-    // assert failed duplicate insertion
-    ASSERT_FALSE(bst.insert(3));
-}
+// TEST_F(SmallBSTFixture, SMALL_INSERT_DUPLICATES_TEST) {
+//     // assert failed duplicate insertion
+//     ASSERT_FALSE(bst.insert(3));
+// }
 
 // TODO: add more BST tests here

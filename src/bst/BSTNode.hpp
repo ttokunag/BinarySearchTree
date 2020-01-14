@@ -59,16 +59,6 @@ class BSTNode {
 
         return leftmost;
     }
-
-    void addLeft(BSTNode<Data>* node) {
-        right = node;
-        node->parent = this;
-    }
-
-    void addRight(BSTNode<Data>* node) {
-        right = node;
-        node->parent = this;
-    }
 };
 
 /**
