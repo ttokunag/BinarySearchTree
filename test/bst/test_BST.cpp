@@ -29,6 +29,24 @@ TEST(BSTTests, INSERTION_TEST) {
     ASSERT_EQ(bst.size(), 3);
 }
 
+TEST(BSTTests, HEIGHT_TEST) {
+    BST<int> bst;
+    ASSERT_EQ(bst.height(), -1);
+
+    bst.insert(8);
+    ASSERT_EQ(bst.height(), 0);
+
+    bst.insert(3);
+    ASSERT_EQ(bst.height(), 1);
+
+    bst.insert(10);
+    ASSERT_EQ(bst.height(), 1);
+
+    bst.insert(6);
+    bst.insert(7);
+    ASSERT_EQ(bst.height(), 3);
+}
+
 TEST(BSTTests, FIND_TEST) {
     BST<int> bst;
     bst.insert(8);

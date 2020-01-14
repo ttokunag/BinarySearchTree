@@ -43,7 +43,7 @@ class BST {
 
     /** TODO */
     bool insert(const Data& item) {
-        if (insertHelper(item, root)) {
+        if (insertHelper(item, root, 0)) {
             isize++;
             return true;
         }
@@ -51,26 +51,34 @@ class BST {
         return false;
     }
 
-    bool insertHelper(const Data& item, BSTNode<Data>* node) {
+    bool insertHelper(const Data& item, BSTNode<Data>* node, int height) {
+        // when root is empty
         if (node == nullptr) {
             root = new BSTNode<Data>(item);
+            iheight = height;  // set iheight to zero
             return true;
         } else if (item == node->getData()) {
             return false;
         }
 
+        // whenever going deeper, increment height by one
+        height += 1;
+
         if (item < node->getData()) {
             if (node->left == nullptr) {
                 node->left = new BSTNode<Data>(item);
+                // update iheight if the bst grows deeper
+                iheight = (height > iheight) ? height : iheight;
                 return true;
             }
-            return insertHelper(item, node->left);
+            return insertHelper(item, node->left, height);
         } else {  // when a given item should be placed right
             if (node->right == nullptr) {
                 node->right = new BSTNode<Data>(item);
+                iheight = (height > iheight) ? height : iheight;
                 return true;
             }
-            return insertHelper(item, node->right);
+            return insertHelper(item, node->right, height);
         }
     }
 
@@ -79,6 +87,7 @@ class BST {
 
     iterator findHelper(const Data& item, BSTNode<Data>* node) const {
         if (node == nullptr) {
+            ;
             return nullptr;
         } else if (node->getData() == item) {
             return BSTIterator<Data>(node);
@@ -98,7 +107,7 @@ class BST {
     unsigned int size() const { return isize; }
 
     /** TODO */
-    int height() const { return 0; }
+    int height() const { return iheight; }
 
     /** TODO */
     bool empty() const { return root == nullptr; }
@@ -159,7 +168,18 @@ class BST {
 
   private:
     /** TODO Helper function for begin() */
-    static BSTNode<Data>* first(BSTNode<Data>* root) { return 0; }
+    static BSTNode<Data>* first(BSTNode<Data>* root) {
+        if (root->left == nullptr) {
+            return root;
+        }
+
+        BSTNode<Data>* first = root;
+        while (first->left != nullptr) {
+            first = first->left;
+        }
+
+        return first;
+    }
 
     /** TODO */
     static void deleteAll(BSTNode<Data>* n) {
