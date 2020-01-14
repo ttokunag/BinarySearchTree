@@ -39,7 +39,7 @@ class BST {
     BST(const BST<Data>& bst) : root(0), isize(0), iheight(-1) {}
 
     /** TODO */
-    ~BST() {}
+    ~BST() { deleteAll(root); }
 
     /** TODO */
     bool insert(const Data& item) {
@@ -206,6 +206,17 @@ class BST {
            recursively delete right sub-tree
            delete current node
         */
+        if (n == NULL) {
+            return;
+        }
+
+        deleteAll(n->left);
+        deleteAll(n->right);
+
+        delete n->left;
+        delete n->right;
+        delete n->parent;
+        delete n;
     }
 
     /** TODO */
