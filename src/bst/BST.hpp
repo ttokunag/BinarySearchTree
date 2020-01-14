@@ -74,10 +74,22 @@ class BST {
         }
     }
 
-    Data rootValue() { return root->getData(); }
-
     /** TODO */
-    iterator find(const Data& item) const { return 0; }
+    iterator find(const Data& item) const { return findHelper(item, root); }
+
+    iterator findHelper(const Data& item, BSTNode<Data>* node) const {
+        if (node == nullptr) {
+            return nullptr;
+        } else if (node->getData() == item) {
+            return BSTIterator<Data>(node);
+        }
+
+        if (item < node->getData()) {
+            return findHelper(item, node->left);
+        } else {
+            return findHelper(item, node->right);
+        }
+    }
 
     /** TODO */
     bool deleteNode(const Data& item) { return false; }
@@ -89,7 +101,7 @@ class BST {
     int height() const { return 0; }
 
     /** TODO */
-    bool empty() const { return false; }
+    bool empty() const { return root == nullptr; }
 
     /** TODO */
     iterator begin() const { return 0; }

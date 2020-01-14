@@ -26,8 +26,27 @@ TEST(BSTTests, INSERTION_TEST) {
     bst.insert(10);
     bst.insert(3);
 
-    ASSERT_EQ(bst.rootValue(), 8);
     ASSERT_EQ(bst.size(), 3);
+}
+
+TEST(BSTTests, FIND_TEST) {
+    BST<int> bst;
+    bst.insert(8);
+    bst.insert(3);
+    bst.insert(10);
+    BSTIterator<int> iter(nullptr);
+
+    ASSERT_EQ(*(bst.find(3)), 3);
+    ASSERT_EQ(*(bst.find(8)), 8);
+    ASSERT_EQ(*(bst.find(10)), 10);
+    ASSERT_EQ(bst.find(11) == iter, true);
+}
+
+TEST(BSTTests, EMPTY_TEST) {
+    BST<int> bst;
+    ASSERT_EQ(bst.empty(), true);
+    bst.insert(1);
+    ASSERT_EQ(bst.empty(), false);
 }
 
 /* Small BST test starts here */
