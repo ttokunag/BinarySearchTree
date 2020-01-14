@@ -67,6 +67,7 @@ class BST {
         if (item < node->getData()) {
             if (node->left == nullptr) {
                 node->left = new BSTNode<Data>(item);
+                node->left->parent = node;  // set a new parent this node
                 // update iheight if the bst grows deeper
                 iheight = (height > iheight) ? height : iheight;
                 return true;
@@ -75,6 +76,7 @@ class BST {
         } else {  // when a given item should be placed right
             if (node->right == nullptr) {
                 node->right = new BSTNode<Data>(item);
+                node->right->parent = node;
                 iheight = (height > iheight) ? height : iheight;
                 return true;
             }
@@ -113,7 +115,7 @@ class BST {
     bool empty() const { return root == nullptr; }
 
     /** TODO */
-    iterator begin() const { return 0; }
+    iterator begin() const { return BSTIterator<Data>(first(root)); }
 
     /** Return an iterator pointing past the last item in the BST. */
     iterator end() const { return typename BST<Data>::iterator(0); }

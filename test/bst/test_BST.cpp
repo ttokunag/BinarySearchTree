@@ -47,6 +47,22 @@ TEST(BSTTests, HEIGHT_TEST) {
     ASSERT_EQ(bst.height(), 3);
 }
 
+TEST(BSTTests, BEGIN_END_TEST) {
+    BST<int> bst;
+    bst.insert(8);
+    bst.insert(3);
+    bst.insert(10);
+
+    BSTIterator<int> iter = bst.begin();
+    ASSERT_EQ(*iter, 3);
+
+    iter++;
+    ASSERT_EQ(*iter, 8);
+
+    iter++;
+    ASSERT_EQ(*iter, 10);
+}
+
 TEST(BSTTests, FIND_TEST) {
     BST<int> bst;
     bst.insert(8);
@@ -58,6 +74,12 @@ TEST(BSTTests, FIND_TEST) {
     ASSERT_EQ(*(bst.find(8)), 8);
     ASSERT_EQ(*(bst.find(10)), 10);
     ASSERT_EQ(bst.find(11) == iter, true);
+
+    BSTIterator<int> findIter = bst.find(3);
+    ASSERT_EQ(*findIter, 3);
+
+    findIter++;
+    ASSERT_EQ(*findIter, 8);
 }
 
 TEST(BSTTests, EMPTY_TEST) {
