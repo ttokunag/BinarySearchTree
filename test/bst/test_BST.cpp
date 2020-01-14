@@ -89,6 +89,18 @@ TEST(BSTTests, EMPTY_TEST) {
     ASSERT_EQ(bst.empty(), false);
 }
 
+TEST(BSTTests, INORDER_TEST) {
+    BST<int> bst;
+    bst.insert(8);
+    bst.insert(3);
+    bst.insert(10);
+
+    vector<int> vec = bst.inorder();
+    ASSERT_EQ(vec[0], 3);
+    ASSERT_EQ(vec[1], 8);
+    ASSERT_EQ(vec[2], 10);
+}
+
 /* Small BST test starts here */
 
 /**

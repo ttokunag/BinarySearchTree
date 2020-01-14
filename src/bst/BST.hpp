@@ -121,7 +121,22 @@ class BST {
     iterator end() const { return typename BST<Data>::iterator(0); }
 
     /** TODO */
-    vector<Data> inorder() const {}
+    vector<Data> inorder() const {
+        vector<Data>* resultPtr = new vector<Data>();
+        inorderHelper(resultPtr, root);
+        return *resultPtr;
+    }
+
+    void inorderHelper(vector<Data>* resultPtr, BSTNode<Data>* node) const {
+        if (node == nullptr) {
+            return;
+        }
+
+        inorderHelper(resultPtr, node->left);
+        // push a new Data to a vector
+        resultPtr->push_back(node->getData());
+        inorderHelper(resultPtr, node->right);
+    }
 
     /**
      * DO NOT CHANGE THIS METHOD
