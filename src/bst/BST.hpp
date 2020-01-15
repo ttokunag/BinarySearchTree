@@ -92,7 +92,6 @@ class BST {
 
     iterator findHelper(const Data& item, BSTNode<Data>* node) const {
         if (node == nullptr) {
-            ;
             return nullptr;
         } else if (node->getData() == item) {
             return BSTIterator<Data>(node);
@@ -125,9 +124,9 @@ class BST {
 
     /** TODO */
     vector<Data> inorder() const {
-        vector<Data>* resultPtr = new vector<Data>();
-        inorderHelper(resultPtr, root);
-        return *resultPtr;
+        vector<Data> resultPtr;
+        inorderHelper(&resultPtr, root);
+        return resultPtr;
     }
 
     void inorderHelper(vector<Data>* resultPtr, BSTNode<Data>* node) const {

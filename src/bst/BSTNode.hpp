@@ -42,6 +42,8 @@ class BSTNode {
             current = current->parent;
         }
 
+        delete current;
+
         return ancestor;
     }
 
