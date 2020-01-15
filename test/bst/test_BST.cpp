@@ -21,6 +21,7 @@ using namespace testing;
 
 TEST(BSTTests, INSERTION_TEST) {
     BST<int> bst;
+
     bst.insert(8);
     bst.insert(3);
     bst.insert(10);
