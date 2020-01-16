@@ -12,12 +12,22 @@ using namespace std;
 using namespace testing;
 
 TEST(BST_NODE_TESTS, TEST_SUCCESSOR) {
-    BSTNode<int> node(3);
-    node.left = new BSTNode<int>(1);
-    node.right = new BSTNode<int>(8);
+    BSTNode<int> node8(8);
 
-    ASSERT_EQ(node.successor()->getData(), 8);
+    ASSERT_EQ(node8.left, nullptr);
+    ASSERT_EQ(node8.right, nullptr);
+    ASSERT_EQ(node8.parent, nullptr);
 
-    delete node.left;
-    delete node.right;
+    BSTNode<int> node3(3);
+    BSTNode<int> node10(10);
+
+    node8.left = &node3;
+    node3.parent = &node8;
+
+    node8.right = &node10;
+    node10.parent = &node8;
+
+    ASSERT_EQ(node3.successor()->getData(), 8);
+    ASSERT_EQ(node8.successor()->getData(), 10);
+    ASSERT_EQ(node10.successor(), nullptr);
 }

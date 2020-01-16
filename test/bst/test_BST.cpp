@@ -65,8 +65,14 @@ TEST(BSTTests, INSERTION_TEST) {
     bst.insert(8);
     bst.insert(3);
     bst.insert(10);
-    bst.insert(3);
 
+    ASSERT_EQ(bst.size(), 3);
+
+    bst.insert(8);
+    bst.insert(3);
+    bst.insert(10);
+
+    // test if there's no duplicated nodes
     ASSERT_EQ(bst.size(), 3);
 }
 

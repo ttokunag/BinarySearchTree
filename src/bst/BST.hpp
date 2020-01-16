@@ -1,5 +1,8 @@
 /**
- * TODO: add file header
+ * About this file:
+ * This file implements Binary Search Tree in C++
+ * Refer to BSTNode.hpp and BSTIterator.hpp for more
+ * details of the classes used here.
  */
 #ifndef BST_HPP
 #define BST_HPP
@@ -11,7 +14,10 @@
 using namespace std;
 
 /**
- * TODO: add class header
+ * About BST class:
+ * BST class implements Binary Search Tree data structure.
+ * Accepts a generic datatype Data, and allows us to use general
+ * BST methods such as insert, find, remove, etc.
  */
 template <typename Data>
 class BST {
@@ -29,24 +35,45 @@ class BST {
     /** Define iterator as an aliased typename for BSTIterator<Data>. */
     typedef BSTIterator<Data> iterator;
 
-    /**
+    /*
      * Default constructor.
      * Initialize an empty BST.
      */
     BST() : root(0), isize(0), iheight(-1) {}
 
-    /** TODO */
+    /*
+     * description:
+     * Constructor which clones a given BST
+     *
+     * @param: const BST<Data>&
+     */
     BST(const BST<Data>& bst) : root(0), isize(0), iheight(-1) {}
 
-    /** TODO */
+    /*
+     * description:
+     * Destructor of this class. Free every pointer included in
+     * this BST and a root node
+     *
+     * No parameter is needed
+     */
     ~BST() {
         deleteAll(root);
         delete root;
     }
 
-    /** TODO */
+    /*
+     * description:
+     * Inserts a new node with a given item to a BST.
+     * Returns true if the node is successfully inserted.
+     * Returns false otherwise, that is, there exists a node
+     * which contains the same data as a given item
+     *
+     * @param const Data&: data for a new node
+     */
     bool insert(const Data& item) {
+        // run a helper function
         if (insertHelper(item, root, 0)) {
+            // increment the size if a node is successfully inserted
             isize++;
             return true;
         }
@@ -54,49 +81,94 @@ class BST {
         return false;
     }
 
+    /*
+     * Description:
+     * A helper function for node insertion. Recursively calls itself
+     * until finding an appropriate place to insert. This function also
+     * updates the height of the BST if necessary.
+     *
+     * Returns true if the node is successfully inserted.
+     * Returns false otherwise, that is, there exists a node
+     * which contains the same data as a given item
+     *
+     * @param const Data&: data for a new node
+     * @param BSTNode<Data>*: a node whose data we compare with a given data
+     * @param int height: a distance from a root node to a current node
+     */
     bool insertHelper(const Data& item, BSTNode<Data>* node, int height) {
         // when root is empty
         if (node == nullptr) {
             root = new BSTNode<Data>(item);
-            iheight = height;  // set iheight to zero
+            iheight = height;
             return true;
-        } else if (item == node->getData()) {
+        }
+        // if there exists a node with the same data, we reject to insert
+        else if (item == node->getData()) {
             return false;
         }
 
-        // whenever going deeper, increment height by one
+        // we go deeper, so increment height by one
         height += 1;
 
         if (item < node->getData()) {
+            // when a data is "smaller" than a current node, and
+            // it doesn't have a left child, insert a new node there
             if (node->left == nullptr) {
                 node->left = new BSTNode<Data>(item);
-                node->left->parent = node;  // set a new parent this node
-                // update iheight if the bst grows deeper
+                node->left->parent = node;
+                // update iheight if a bst gets taller by this insertion
                 iheight = (height > iheight) ? height : iheight;
                 return true;
             }
+            // proceed to left if it is not a appropriate place yet
             return insertHelper(item, node->left, height);
-        } else {  // when a given item should be placed right
+        } else {
+            // when a data is "larger" than a current node, and
+            // it doesn't have a right child, insert a new node there
             if (node->right == nullptr) {
                 node->right = new BSTNode<Data>(item);
                 node->right->parent = node;
                 iheight = (height > iheight) ? height : iheight;
                 return true;
             }
+            // proceed to right if it is not a appropriate place yet
             return insertHelper(item, node->right, height);
         }
     }
 
-    /** TODO */
-    iterator find(const Data& item) const { return findHelper(item, root); }
+    /*
+     * description:
+     * Find a node with a given data, and return an iterator which
+     * points to the node.
+     *
+     * @param const Data&: a data that this method looks for.
+     */
+    iterator find(const Data& item) const {
+        return findHelper(item, root);
+        // findHelper description is right below this function
+    }
 
+    /*
+     * description:
+     * A helper function for find operation. Recursive calls itself until
+     * finding a node with a given data.
+     *
+     * @param const Data&: a data that this method looks for
+     * @param BSTNode<Data>*: a reference of a current node
+     */
     iterator findHelper(const Data& item, BSTNode<Data>* node) const {
+        // if a root node isn't set yet, return null iterator
         if (node == nullptr) {
-            return nullptr;
-        } else if (node->getData() == item) {
+            return BSTIterator<Data>(nullptr);
+        }
+        // return an iterator pointing the node if it finds a node with
+        // a data equals a given data
+        else if (node->getData() == item) {
             return BSTIterator<Data>(node);
         }
 
+        // if a current node doesn't have a data that we look for, it
+        // proceeds either left or right depending on a current node data
         if (item < node->getData()) {
             return findHelper(item, node->left);
         } else {
