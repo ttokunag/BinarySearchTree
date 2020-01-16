@@ -137,7 +137,7 @@ class BST {
     }
 
     /*
-     * description:
+     * Description:
      * Find a node with a given data, and return an iterator which
      * points to the node.
      *
@@ -149,7 +149,7 @@ class BST {
     }
 
     /*
-     * description:
+     * Description:
      * A helper function for find operation. Recursive calls itself until
      * finding a node with a given data.
      *
@@ -179,28 +179,46 @@ class BST {
     /** TODO */
     bool deleteNode(const Data& item) { return false; }
 
-    /** TODO */
+    /*
+     * Description:
+     * Getter function which returns the size of this BST
+     */
     unsigned int size() const { return isize; }
 
-    /** TODO */
+    /*
+     * Description:
+     * Getter function which returns the height of this BST
+     */
     int height() const { return iheight; }
 
-    /** TODO */
+    /*
+     * Description:
+     * Returns true if this BST is empty (contains no node)
+     */
     bool empty() const { return root == nullptr; }
 
-    /** TODO */
+    /*
+     * Description:
+     * Returns an iterator which iterates nodes in "incremental" order
+     * (Meaning of "incremental" varies depending on Data)
+     */
     iterator begin() const { return BSTIterator<Data>(first(root)); }
 
     /** Return an iterator pointing past the last item in the BST. */
     iterator end() const { return typename BST<Data>::iterator(0); }
 
-    /** TODO */
+    /*
+     * Description:
+     * Returns a vector of Data which sorted in "incremental" order
+     * (Meaning of "incremental" varies depending on Data)
+     */
     vector<Data> inorder() const {
         vector<Data> resultPtr;
         inorderHelper(&resultPtr, root);
         return resultPtr;
     }
 
+    /**TODO */
     void inorderHelper(vector<Data>* resultPtr, BSTNode<Data>* node) const {
         if (node == nullptr) {
             return;
