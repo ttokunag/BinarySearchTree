@@ -224,9 +224,12 @@ class BST {
             return;
         }
 
+        /* Inorder traversal:
+           Left => Parent => Right */
         inorderHelper(resultPtr, node->left);
         // push a new Data to a vector
         resultPtr->push_back(node->getData());
+
         inorderHelper(resultPtr, node->right);
     }
 
@@ -302,11 +305,14 @@ class BST {
             return;
         }
 
+        // Delete the left and right frist
         deleteAll(n->left);
         deleteAll(n->right);
 
         delete n->left;
         delete n->right;
+        // we don't free n->parent and itself because it causes
+        // double free error
     }
 
     /** TODO */
