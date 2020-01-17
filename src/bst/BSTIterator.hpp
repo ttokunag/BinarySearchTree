@@ -1,5 +1,6 @@
 /**
- * TODO: add file header
+ * This file implements an iterator for a binary
+ * search tree.
  */
 #ifndef BSTITERATOR_HPP
 #define BSTITERATOR_HPP
@@ -10,7 +11,9 @@
 using namespace std;
 
 /**
- * TODO: add class header
+ * This overload an interator data structure.
+ * This class contains a reference of a BSTNode. This iterator
+ * points to a node in ascending order.
  */
 template <typename Data>
 class BSTIterator : public iterator<input_iterator_tag, Data> {
@@ -40,12 +43,12 @@ class BSTIterator : public iterator<input_iterator_tag, Data> {
         return before;
     }
 
-    /** TODO */
+    /** Returns true if two iterators point to the same node */
     bool operator==(BSTIterator<Data> const& other) const {
         return curr == other.curr;
     }
 
-    /** TODO */
+    /** Returns true if two iterators point to different nodes */
     bool operator!=(BSTIterator<Data> const& other) const {
         return curr != other.curr;
     }
