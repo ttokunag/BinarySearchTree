@@ -1,5 +1,6 @@
 /**
- * TODO: add file header
+ * This file implements a BSTNode data structure
+ * which is used to implement a BST.
  */
 #ifndef BSTNODE_HPP
 #define BSTNODE_HPP
@@ -8,7 +9,8 @@
 using namespace std;
 
 /**
- * TODO: add class header
+ * BSTNode contains a generic datatype and references
+ * for a left child, a right child, and parent node.
  */
 template <typename Data>
 class BSTNode {
@@ -20,7 +22,13 @@ class BSTNode {
     BSTNode<Data>* right;
     BSTNode<Data>* parent;
 
-    /** TODO */
+    /*
+     * Description:
+     * Initializes a BSTNode. Sets the content of a new node, and
+     * sets left, right, parent to a null pointer
+     *
+     * @param const Data&: a data for a new node
+     */
     BSTNode(const Data& d) : data(d) { left = right = parent = nullptr; }
 
     /** Set the value of data */
@@ -29,12 +37,21 @@ class BSTNode {
     /** Get the value of data */
     Data getData() { return data; }
 
-    /** TODO */
+    /*
+     * Description:
+     * Returns a reference of a successor node of this node.
+     * A successor node is a "smallest" node "larger" than this node.
+     * (Meaning of small and larger depends on Data)
+     */
     BSTNode<Data>* successor() {
+        // if a node has a right child, a successor is a leftmost
+        // child node of the right child
         if (right != nullptr) {
             return right->leftmostChild();
         }
 
+        // Otherwise, a successor is a first ancestor node whose left child
+        // is an ancestor of this node
         BSTNode<Data>* ancestor = parent;
         BSTNode<Data>* current = this;
         while (ancestor != nullptr && current != ancestor->left) {
@@ -45,6 +62,11 @@ class BSTNode {
         return ancestor;
     }
 
+    /*
+     * Description:
+     * A helper function which returns a reference of
+     * a leftmost child node of this node. Used in successor().
+     */
     BSTNode<Data>* leftmostChild() {
         // the case this node has no left child
         if (left == nullptr) {
