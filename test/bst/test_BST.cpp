@@ -74,6 +74,8 @@ TEST(BSTTests, INSERTION_TEST) {
 
     // test if there's no duplicated nodes
     ASSERT_EQ(bst.size(), 3);
+
+    bst.print(&cout);
 }
 
 TEST(BSTTests, HEIGHT_TEST) {
@@ -101,6 +103,8 @@ TEST(BSTTests, BEGIN_END_TEST) {
     bst.insert(10);
 
     BSTIterator<int> iter = bst.begin();
+    BSTIterator<int> end = bst.end();
+
     ASSERT_EQ(*iter, 3);
 
     iter++;
@@ -108,6 +112,9 @@ TEST(BSTTests, BEGIN_END_TEST) {
 
     iter++;
     ASSERT_EQ(*iter, 10);
+
+    iter++;
+    ASSERT_EQ(iter == end, true);
 }
 
 TEST(BSTTests, FIND_TEST) {

@@ -225,9 +225,10 @@ class BST {
         }
 
         /* Inorder traversal:
-           Left => Parent => Right */
+            left => parent => right */
+
         inorderHelper(resultPtr, node->left);
-        // push a new Data to a vector
+        // push a current node Data to a vector
         resultPtr->push_back(node->getData());
 
         inorderHelper(resultPtr, node->right);
