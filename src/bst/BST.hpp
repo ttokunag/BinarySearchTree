@@ -218,7 +218,14 @@ class BST {
         return resultPtr;
     }
 
-    /**TODO */
+    /*
+     * Description:
+     * A helper function for inorder(). Recursively calls itself in the
+     * order of left, current, and right.
+     *
+     * @param vector<Data>*: a reference of a vector to return
+     * @param BSTNode<Data>*: a reference of a current node
+     */
     void inorderHelper(vector<Data>* resultPtr, BSTNode<Data>* node) const {
         if (node == nullptr) {
             return;
@@ -280,13 +287,20 @@ class BST {
     }
 
   private:
-    /** TODO Helper function for begin() */
+    /*
+     * Description:
+     * Returns a reference of a "smallest" node in this BST.
+     *
+     * @param BSTNode<Data>*: a reference of a current node
+     */
     static BSTNode<Data>* first(BSTNode<Data>* root) {
-        if (root->left == nullptr) {
+        // return the root pointer if a BST has at most one node
+        if (root == nullptr || root->left == nullptr) {
             return root;
         }
 
         BSTNode<Data>* first = root;
+        // keep iterating until hitting the leftmost node
         while (first->left != nullptr) {
             first = first->left;
         }
@@ -294,7 +308,13 @@ class BST {
         return first;
     }
 
-    /** TODO */
+    /*
+     * Description:
+     * A helper function for a destructor. This keeps
+     * freeing pointers related to a given node.
+     *
+     * @param BSTNode<Data>*: a pointer to a node to be freed
+     */
     static void deleteAll(BSTNode<Data>* n) {
         /* Pseudocode:
            if current node is null: return;
