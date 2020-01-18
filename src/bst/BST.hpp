@@ -199,7 +199,8 @@ class BST {
             }
             // the case the node has two children
             else {
-                        }
+                deleteNodeWithTwoChildren(node);
+            }
         }
     }
 
@@ -219,6 +220,28 @@ class BST {
         }
 
         delete node;
+    }
+
+    void deleteNodeWithTwoChildren(BSTNode<Data>* node) {
+        BSTNode<Data>* successor = node->successor();
+        node->setData(successor->getData());
+
+        // if the node has no child
+        if (successor->left == nullptr && successor->right == nullptr) {
+            delete successor;
+        }
+        // the case the node has only left child
+        else if (successor->left != nullptr && successor->right == nullptr) {
+            deleteNodeWithOneChild(successor, successor->left);
+        }
+        // the case the node has only right child
+        else if (successor->left == nullptr && successor->right != nullptr) {
+            deleteNodeWithOneChild(successor, successor->right);
+        }
+        // the case the node has two children
+        else {
+            deleteNodeWithTwoChildren(successor);
+        }
     }
 
     /*
