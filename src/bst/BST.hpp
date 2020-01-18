@@ -43,9 +43,10 @@ class BST {
 
     /*
      * description:
-     * Constructor which clones a given BST
+     * Constructor which copies a given BST after
+     * balancing it out.
      *
-     * @param: const BST<Data>&
+     * @param BST<Data>: a BST to be cloned
      */
     BST(const BST<Data>& bst) : root(0), isize(0), iheight(-1) {
         vector<Data> inorder = bst.inorder();
@@ -180,7 +181,9 @@ class BST {
     }
 
     /** TODO */
-    bool deleteNode(const Data& item) { return false; }
+    bool deleteNode(const Data& item) { return deleteHelper(item, root); }
+
+    bool deleteHelper(const Data& item, BSTNode<Data>* node) {}
 
     /*
      * Description:
@@ -339,13 +342,24 @@ class BST {
         // double free error
     }
 
-    /** TODO */
+    /*
+     * Description:
+     * A helper function for a balanced BST constructor. By taking a
+     * median value of a vector as a new node, a new BST keep being
+     * balanced.
+     *
+     * @param vector<Data>: a vector which is sorted in incremental order
+     * @param int start: an index of the first element of a vector
+     * @param int end: an index of the last element of a vector
+     * @param int depth: the depth to insert a new node
+     */
     BSTNode<Data>* buildSubtree(vector<Data>& data, int start, int end,
                                 int depth) {
         if (start > end) {
             return nullptr;
         }
 
+        // increment the size at each time adding a new node
         isize += 1;
 
         int medianIndex = (start + end) / 2;
@@ -360,6 +374,7 @@ class BST {
         newRoot->left = buildSubtree(data, start, medianIndex - 1, depth + 1);
         newRoot->right = buildSubtree(data, medianIndex + 1, end, depth + 1);
 
+        // set a parent of a left and right child if exists
         if (newRoot->left != nullptr) {
             newRoot->left->parent = newRoot;
         }
