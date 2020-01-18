@@ -154,3 +154,29 @@ TEST(BSTTests, INORDER_TEST) {
     ASSERT_EQ(vec[1], 8);
     ASSERT_EQ(vec[2], 10);
 }
+
+TEST(BSTTests, COPY_BST_TEST) {
+    BST<int> bst;
+    bst.insert(1);
+    bst.insert(2);
+    bst.insert(3);
+    bst.insert(4);
+    bst.insert(5);
+    bst.insert(6);
+
+    BST<int> copy(bst);
+
+    BSTIterator<int> iter1 = bst.begin();
+    BSTIterator<int> iter2 = copy.begin();
+    BSTIterator<int> end1 = bst.end();
+    BSTIterator<int> end2 = copy.end();
+
+    while (iter1 != end1 && iter2 != end2) {
+        ASSERT_EQ(*iter1 == *iter2, true);
+        iter1++;
+        iter2++;
+    }
+
+    ASSERT_EQ(copy.height(), 2);
+    ASSERT_EQ(copy.size(), 6);
+}
