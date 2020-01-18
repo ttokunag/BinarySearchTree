@@ -190,41 +190,35 @@ class BST {
                 delete node;
             }
             // the case the node has only left child
-            else if (node->left == nullptr && node->right != nullptr) {
-                // updates a parent of a child
-                node->left->parent = node->parent;
-                // a node to be deleted is a root
-                if (node->parent == nullptr) {
-                    root = node->left;
-                }
-                // a node is placed on the left of its parent
-                else if (node->parent->left == node) {
-                    node->parent->left = node->left;
-                } else {
-                    node->parent->right = node->left;
-                }
-                delete node;
+            else if (node->left != nullptr && node->right == nullptr) {
+                deleteNodeWithOneChild(node, node->left);
             }
             // the case the node has only right child
-            else if (node->left != nullptr && node->right == nullptr) {
-                // updates a parent of a child
-                node->right->parent = node->parent;
-                // a node to be deleted is a root
-                if (node->parent == nullptr) {
-                    root = node->right;
-                }
-                // a node is placed on the left of its parent
-                else if (node->parent->left == node) {
-                    node->parent->left = node->right;
-                } else {
-                    node->parent->right = node->right;
-                }
-                delete node;
+            else if (node->left == nullptr && node->right != nullptr) {
+                deleteNodeWithOneChild(node, node->right);
             }
             // the case the node has two children
             else {
                         }
         }
+    }
+
+    void deleteNodeWithOneChild(BSTNode<Data>* node, BSTNode<Data>* child) {
+        // set a parent of a child to a node's parent
+        child.parent = node.parent;
+
+        // set a child to a root if the node is a root
+        if (node->parent == nullptr) {
+            root = child;
+        }
+
+        if (node->parent->left == node) {
+            parent->left = child;
+        } else if (node->parent->right == node) {
+            parent->right = child;
+        }
+
+        delete node;
     }
 
     /*
