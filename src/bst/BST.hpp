@@ -183,7 +183,49 @@ class BST {
     /** TODO */
     bool deleteNode(const Data& item) { return deleteHelper(item, root); }
 
-    bool deleteHelper(const Data& item, BSTNode<Data>* node) {}
+    bool deleteHelper(const Data& item, BSTNode<Data>* node) {
+        if (node->getData() == item) {
+            // if the node has no child
+            if (node->left == nullptr && node->right == nullptr) {
+                delete node;
+            }
+            // the case the node has only left child
+            else if (node->left == nullptr && node->right != nullptr) {
+                // updates a parent of a child
+                node->left->parent = node->parent;
+                // a node to be deleted is a root
+                if (node->parent == nullptr) {
+                    root = node->left;
+                }
+                // a node is placed on the left of its parent
+                else if (node->parent->left == node) {
+                    node->parent->left = node->left;
+                } else {
+                    node->parent->right = node->left;
+                }
+                delete node;
+            }
+            // the case the node has only right child
+            else if (node->left != nullptr && node->right == nullptr) {
+                // updates a parent of a child
+                node->right->parent = node->parent;
+                // a node to be deleted is a root
+                if (node->parent == nullptr) {
+                    root = node->right;
+                }
+                // a node is placed on the left of its parent
+                else if (node->parent->left == node) {
+                    node->parent->left = node->right;
+                } else {
+                    node->parent->right = node->right;
+                }
+                delete node;
+            }
+            // the case the node has two children
+            else {
+                        }
+        }
+    }
 
     /*
      * Description:
