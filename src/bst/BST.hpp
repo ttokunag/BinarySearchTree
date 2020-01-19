@@ -182,40 +182,27 @@ class BST {
 
     /** TODO */
     bool deleteNode(const Data& item) {
-        BSTNode<Data>* target = findNode(item, root);
+        BSTNode<Data>* node = findNode(item, root);
 
-        if (target == nullptr) {
+        if (node == nullptr) {
             return false;
         }
 
-        if (target->left == nullptr && target->right == nullptr) {
-            if (target == root) {
-                root = nullptr;
-            } else if (target->parent->left == target) {
-                target->parent->left = nullptr;
-                target->parent = nullptr;
-            } else if (target->parent->right == target) {
-                target->parent->right = nullptr;
-                target->parent = nullptr;
-            }
-            delete target;
-            return true;
+        if (node->left == nullptr && node->right == nullptr) {
+            deleteNodeWithNoChild(node);
         }
 
-        else if (target->left != nullptr && target->right != nullptr) {
-            deleteNodeWithTwoChildren(target);
-            return true;
+        else if (node->left != nullptr && node->right != nullptr) {
+            deleteNodeWithTwoChildren(node);
         }
 
         else {
-            BSTNode<Data>* child =
-                (target->left != nullptr) ? target->left : target->right;
+            BSTNode<Data>* child = (node->left) ? node->left : node->right;
 
-            deleteNodeWithOneChild(target, child);
-            return true;
+            deleteNodeWithOneChild(node, child);
         }
 
-        return false;
+        return true;
     }
 
     BSTNode<Data>* findNode(const Data& item, BSTNode<Data>* node) {
@@ -230,6 +217,19 @@ class BST {
         } else {
             return findNode(item, node->right);
         }
+    }
+
+    void deleteNodeWithNoChild(BSTNode<Data>* node) {
+        if (node == root) {
+            root = nullptr;
+        } else if (node->parent->left == node) {
+            node->parent->left = nullptr;
+            node->parent = nullptr;
+        } else if (node->parent->right == node) {
+            node->parent->right = nullptr;
+            node->parent = nullptr;
+        }
+        delete node;
     }
 
     void deleteNodeWithOneChild(BSTNode<Data>* node, BSTNode<Data>* child) {
