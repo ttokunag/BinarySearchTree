@@ -180,3 +180,14 @@ TEST(BSTTests, COPY_BST_TEST) {
     ASSERT_EQ(copy.height(), 2);
     ASSERT_EQ(copy.size(), 6);
 }
+
+TEST(BSTTests, DELETE_TEST) {
+    BST<int> bst;
+    bst.insert(4);
+    bst.insert(2);
+    bst.insert(6);
+    bst.insert(1);
+    bst.insert(3);
+
+    bst.deleteNode(1);
+}

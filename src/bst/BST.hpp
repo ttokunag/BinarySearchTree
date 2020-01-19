@@ -201,12 +201,19 @@ class BST {
             else {
                 deleteNodeWithTwoChildren(node);
             }
+            return true;
         }
+
+        if (deleteHelper(item, node->left) || deleteHelper(item, node->right)) {
+            return true;
+        }
+
+        return false;
     }
 
     void deleteNodeWithOneChild(BSTNode<Data>* node, BSTNode<Data>* child) {
         // set a parent of a child to a node's parent
-        child.parent = node.parent;
+        child->parent = node->parent;
 
         // set a child to a root if the node is a root
         if (node->parent == nullptr) {
@@ -214,9 +221,9 @@ class BST {
         }
 
         if (node->parent->left == node) {
-            parent->left = child;
+            node->parent->left = child;
         } else if (node->parent->right == node) {
-            parent->right = child;
+            node->parent->right = child;
         }
 
         delete node;
