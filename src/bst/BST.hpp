@@ -220,18 +220,20 @@ class BST {
             BSTNode<Data>* child =
                 (target->left != nullptr) ? target->left : target->right;
 
-            if (target == root) {
-                root = child;
-                root->parent = nullptr;
-            } else if (target->parent->left == target) {
-                target->parent->left = child;
-                child->parent = target->parent;
-            } else if (target->parent->right == target) {
-                target->parent->right = child;
-                child->parent = target->parent;
-            }
+            // if (target == root) {
+            //     root = child;
+            //     root->parent = nullptr;
+            // } else if (target->parent->left == target) {
+            //     target->parent->left = child;
+            //     child->parent = target->parent;
+            // } else if (target->parent->right == target) {
+            //     target->parent->right = child;
+            //     child->parent = target->parent;
+            // }
 
-            delete target;
+            // delete target;
+
+            deleteNodeWithOneChild(target, child);
             return true;
         }
 
@@ -253,44 +255,28 @@ class BST {
     }
 
     void deleteNodeWithOneChild(BSTNode<Data>* node, BSTNode<Data>* child) {
-        // set a parent of a child to a node's parent
-        child->parent = node->parent;
-
-        // set a child to a root if the node is a root
-        if (node->parent == nullptr) {
+        if (node == root) {
             root = child;
+            root->parent = nullptr;
         } else if (node->parent->left == node) {
             node->parent->left = child;
+            child->parent = node->parent;
         } else if (node->parent->right == node) {
             node->parent->right = child;
+            child->parent = node->parent;
         }
 
-        node->parent = nullptr;
-        node->left = nullptr;
-        node->right = nullptr;
         delete node;
     }
 
     void deleteNodeWithTwoChildren(BSTNode<Data>* node) {
         BSTNode<Data>* successor = node->successor();
-        node->setData(successor->getData());
 
-        // if the node has no child
-        if (successor->left == nullptr && successor->right == nullptr) {
-            delete successor;
-        }
-        // the case the node has only left child
-        else if (successor->left != nullptr && successor->right == nullptr) {
-            deleteNodeWithOneChild(successor, successor->left);
-        }
-        // the case the node has only right child
-        else if (successor->left == nullptr && successor->right != nullptr) {
-            deleteNodeWithOneChild(successor, successor->right);
-        }
-        // the case the node has two children
-        else {
-            deleteNodeWithTwoChildren(successor);
-        }
+        Data successorVal = successor->getData();
+
+        deleteNode(successorVal);
+
+        node->setData(successorVal);
     }
 
     /*
