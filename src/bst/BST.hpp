@@ -87,61 +87,6 @@ class BST {
 
     /*
      * Description:
-     * A helper function for node insertion. Recursively calls itself
-     * until finding an appropriate place to insert. This function also
-     * updates the height of the BST if necessary.
-     *
-     * Returns true if the node is successfully inserted.
-     * Returns false otherwise, that is, there exists a node
-     * which contains the same data as a given item
-     *
-     * @param const Data&: data for a new node
-     * @param BSTNode<Data>*: a node whose data we compare with a given data
-     * @param int height: a distance from a root node to a current node
-     */
-    bool insertHelper(const Data& item, BSTNode<Data>* node, int height) {
-        // when root is empty
-        if (node == nullptr) {
-            root = new BSTNode<Data>(item);
-            iheight = height;
-            return true;
-        }
-        // if there exists a node with the same data, we reject to insert
-        else if (item == node->getData()) {
-            return false;
-        }
-
-        // we go deeper, so increment height by one
-        height += 1;
-
-        if (item < node->getData()) {
-            // when a data is "smaller" than a current node, and
-            // it doesn't have a left child, insert a new node there
-            if (node->left == nullptr) {
-                node->left = new BSTNode<Data>(item);
-                node->left->parent = node;
-                // update iheight if a bst gets taller by this insertion
-                iheight = (height > iheight) ? height : iheight;
-                return true;
-            }
-            // proceed to left if it is not a appropriate place yet
-            return insertHelper(item, node->left, height);
-        } else {
-            // when a data is "larger" than a current node, and
-            // it doesn't have a right child, insert a new node there
-            if (node->right == nullptr) {
-                node->right = new BSTNode<Data>(item);
-                node->right->parent = node;
-                iheight = (height > iheight) ? height : iheight;
-                return true;
-            }
-            // proceed to right if it is not a appropriate place yet
-            return insertHelper(item, node->right, height);
-        }
-    }
-
-    /*
-     * Description:
      * Find a node with a given data, and return an iterator which
      * points to the node.
      *
@@ -152,109 +97,33 @@ class BST {
         // findHelper description is right below this function
     }
 
-    /*
-     * Description:
-     * A helper function for find operation. Recursive calls itself until
-     * finding a node with a given data.
-     *
-     * @param const Data&: a data that this method looks for
-     * @param BSTNode<Data>*: a reference of a current node
-     */
-    iterator findHelper(const Data& item, BSTNode<Data>* node) const {
-        // if a root node isn't set yet, return null iterator
-        if (node == nullptr) {
-            return BSTIterator<Data>(nullptr);
-        }
-        // return an iterator pointing the node if it finds a node with
-        // a data equals a given data
-        else if (node->getData() == item) {
-            return BSTIterator<Data>(node);
-        }
-
-        // if a current node doesn't have a data that we look for, it
-        // proceeds either left or right depending on a current node data
-        if (item < node->getData()) {
-            return findHelper(item, node->left);
-        } else {
-            return findHelper(item, node->right);
-        }
-    }
-
     /** TODO */
     bool deleteNode(const Data& item) {
+        // finds a node with a given data. findNode is implemeted below this
+        // function
         BSTNode<Data>* node = findNode(item, root);
 
+        // No nodes contain a given data, so return false
         if (node == nullptr) {
             return false;
         }
 
+        // A node to delete has no child
         if (node->left == nullptr && node->right == nullptr) {
-            deleteNodeWithNoChild(node);
+            deleteNodeWithNoChild(node);  // a private helper function
         }
-
+        // A node to delete has two children
         else if (node->left != nullptr && node->right != nullptr) {
-            deleteNodeWithTwoChildren(node);
+            deleteNodeWithTwoChildren(node);  // a private helper function
         }
-
+        // A node to delete has either a left or right child
         else {
             BSTNode<Data>* child = (node->left) ? node->left : node->right;
 
-            deleteNodeWithOneChild(node, child);
+            deleteNodeWithOneChild(node, child);  // a private helper function
         }
 
         return true;
-    }
-
-    BSTNode<Data>* findNode(const Data& item, BSTNode<Data>* node) {
-        if (node == nullptr) {
-            return nullptr;
-        } else if (node->getData() == item) {
-            return node;
-        }
-
-        if (item < node->getData()) {
-            return findNode(item, node->left);
-        } else {
-            return findNode(item, node->right);
-        }
-    }
-
-    void deleteNodeWithNoChild(BSTNode<Data>* node) {
-        if (node == root) {
-            root = nullptr;
-        } else if (node->parent->left == node) {
-            node->parent->left = nullptr;
-            node->parent = nullptr;
-        } else if (node->parent->right == node) {
-            node->parent->right = nullptr;
-            node->parent = nullptr;
-        }
-        delete node;
-    }
-
-    void deleteNodeWithOneChild(BSTNode<Data>* node, BSTNode<Data>* child) {
-        if (node == root) {
-            root = child;
-            root->parent = nullptr;
-        } else if (node->parent->left == node) {
-            node->parent->left = child;
-            child->parent = node->parent;
-        } else if (node->parent->right == node) {
-            node->parent->right = child;
-            child->parent = node->parent;
-        }
-
-        delete node;
-    }
-
-    void deleteNodeWithTwoChildren(BSTNode<Data>* node) {
-        BSTNode<Data>* successor = node->successor();
-
-        Data successorVal = successor->getData();
-
-        deleteNode(successorVal);
-
-        node->setData(successorVal);
     }
 
     /*
@@ -294,29 +163,6 @@ class BST {
         vector<Data> resultPtr;
         inorderHelper(&resultPtr, root);
         return resultPtr;
-    }
-
-    /*
-     * Description:
-     * A helper function for inorder(). Recursively calls itself in the
-     * order of left, current, and right.
-     *
-     * @param vector<Data>*: a reference of a vector to return
-     * @param BSTNode<Data>*: a reference of a current node
-     */
-    void inorderHelper(vector<Data>* resultPtr, BSTNode<Data>* node) const {
-        if (node == nullptr) {
-            return;
-        }
-
-        /* Inorder traversal:
-            left => parent => right */
-
-        inorderHelper(resultPtr, node->left);
-        // push a current node Data to a vector
-        resultPtr->push_back(node->getData());
-
-        inorderHelper(resultPtr, node->right);
     }
 
     /**
@@ -461,6 +307,164 @@ class BST {
     }
 
     // Add more helper functions below
+
+    /*
+     * Description:
+     * A helper function for node insertion. Recursively calls itself
+     * until finding an appropriate place to insert. This function also
+     * updates the height of the BST if necessary.
+     *
+     * Returns true if the node is successfully inserted.
+     * Returns false otherwise, that is, there exists a node
+     * which contains the same data as a given item
+     *
+     * @param const Data&: data for a new node
+     * @param BSTNode<Data>*: a node whose data we compare with a given data
+     * @param int height: a distance from a root node to a current node
+     */
+    bool insertHelper(const Data& item, BSTNode<Data>* node, int height) {
+        // when root is empty
+        if (node == nullptr) {
+            root = new BSTNode<Data>(item);
+            iheight = height;
+            return true;
+        }
+        // if there exists a node with the same data, we reject to insert
+        else if (item == node->getData()) {
+            return false;
+        }
+
+        // we go deeper, so increment height by one
+        height += 1;
+
+        if (item < node->getData()) {
+            // when a data is "smaller" than a current node, and
+            // it doesn't have a left child, insert a new node there
+            if (node->left == nullptr) {
+                node->left = new BSTNode<Data>(item);
+                node->left->parent = node;
+                // update iheight if a bst gets taller by this insertion
+                iheight = (height > iheight) ? height : iheight;
+                return true;
+            }
+            // proceed to left if it is not a appropriate place yet
+            return insertHelper(item, node->left, height);
+        } else {
+            // when a data is "larger" than a current node, and
+            // it doesn't have a right child, insert a new node there
+            if (node->right == nullptr) {
+                node->right = new BSTNode<Data>(item);
+                node->right->parent = node;
+                iheight = (height > iheight) ? height : iheight;
+                return true;
+            }
+            // proceed to right if it is not a appropriate place yet
+            return insertHelper(item, node->right, height);
+        }
+    }
+    
+    /*
+     * Description:
+     * A helper function for find operation. Recursive calls itself until
+     * finding a node with a given data.
+     *
+     * @param const Data&: a data that this method looks for
+     * @param BSTNode<Data>*: a reference of a current node
+     */
+    iterator findHelper(const Data& item, BSTNode<Data>* node) const {
+        // if a root node isn't set yet, return null iterator
+        if (node == nullptr) {
+            return BSTIterator<Data>(nullptr);
+        }
+        // return an iterator pointing the node if it finds a node with
+        // a data equals a given data
+        else if (node->getData() == item) {
+            return BSTIterator<Data>(node);
+        }
+
+        // if a current node doesn't have a data that we look for, it
+        // proceeds either left or right depending on a current node data
+        if (item < node->getData()) {
+            return findHelper(item, node->left);
+        } else {
+            return findHelper(item, node->right);
+        }
+    }
+
+    BSTNode<Data>* findNode(const Data& item, BSTNode<Data>* node) {
+        if (node == nullptr) {
+            return nullptr;
+        } else if (node->getData() == item) {
+            return node;
+        }
+
+        if (item < node->getData()) {
+            return findNode(item, node->left);
+        } else {
+            return findNode(item, node->right);
+        }
+    }
+
+    void deleteNodeWithNoChild(BSTNode<Data>* node) {
+        if (node == root) {
+            root = nullptr;
+        } else if (node->parent->left == node) {
+            node->parent->left = nullptr;
+            node->parent = nullptr;
+        } else {
+            node->parent->right = nullptr;
+            node->parent = nullptr;
+        }
+        delete node;
+    }
+
+    void deleteNodeWithOneChild(BSTNode<Data>* node, BSTNode<Data>* child) {
+        if (node == root) {
+            root = child;
+            root->parent = nullptr;
+        } else if (node->parent->left == node) {
+            node->parent->left = child;
+            child->parent = node->parent;
+        } else {
+            node->parent->right = child;
+            child->parent = node->parent;
+        }
+
+        delete node;
+    }
+
+    void deleteNodeWithTwoChildren(BSTNode<Data>* node) {
+        BSTNode<Data>* successor = node->successor();
+
+        Data successorVal = successor->getData();
+
+        deleteNode(successorVal);
+
+        node->setData(successorVal);
+    }
+
+    /*
+     * Description:
+     * A helper function for inorder(). Recursively calls itself in the
+     * order of left, current, and right.
+     *
+     * @param vector<Data>*: a reference of a vector to return
+     * @param BSTNode<Data>*: a reference of a current node
+     */
+    void inorderHelper(vector<Data>* resultPtr, BSTNode<Data>* node) const {
+        if (node == nullptr) {
+            return;
+        }
+
+        /* Inorder traversal:
+            left => parent => right */
+
+        inorderHelper(resultPtr, node->left);
+        // push a current node Data to a vector
+        resultPtr->push_back(node->getData());
+
+        inorderHelper(resultPtr, node->right);
+    }
 };
 
 #endif  // BST_HPP
