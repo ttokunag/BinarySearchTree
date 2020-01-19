@@ -252,8 +252,6 @@ class BST {
         }
     }
 
-    BSTNode<Data>* getRoot() { return root; }
-
     void deleteNodeWithOneChild(BSTNode<Data>* node, BSTNode<Data>* child) {
         // set a parent of a child to a node's parent
         child->parent = node->parent;
