@@ -183,11 +183,16 @@ TEST(BSTTests, COPY_BST_TEST) {
 
 TEST(BSTTests, DELETE_TEST) {
     BST<int> bst;
-    bst.insert(4);
     bst.insert(2);
-    bst.insert(6);
-    bst.insert(1);
     bst.insert(3);
+    // bst.insert(4);
 
-    bst.deleteNode(1);
+    ASSERT_NE(bst.findNode(3, bst.getRoot()), nullptr);
+
+    BSTIterator<int> iter = bst.begin();
+    BSTIterator<int> end = bst.end();
+    while (iter != end) {
+        cout << "Value is: " << *iter << endl;
+        iter++;
+    }
 }

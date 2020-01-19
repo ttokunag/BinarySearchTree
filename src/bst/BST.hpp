@@ -185,31 +185,24 @@ class BST {
 
     bool deleteHelper(const Data& item, BSTNode<Data>* node) {
         if (node->getData() == item) {
-            // if the node has no child
-            if (node->left == nullptr && node->right == nullptr) {
-                delete node;
-            }
-            // the case the node has only left child
-            else if (node->left != nullptr && node->right == nullptr) {
-                deleteNodeWithOneChild(node, node->left);
-            }
-            // the case the node has only right child
-            else if (node->left == nullptr && node->right != nullptr) {
-                deleteNodeWithOneChild(node, node->right);
-            }
-            // the case the node has two children
-            else {
-                deleteNodeWithTwoChildren(node);
-            }
-            return true;
         }
-
-        if (deleteHelper(item, node->left) || deleteHelper(item, node->right)) {
-            return true;
-        }
-
-        return false;
     }
+
+    BSTNode<Data>* findNode(const Data& item, BSTNode<Data>* node) {
+        if (node == nullptr) {
+            return nullptr;
+        } else if (node->getData() == item) {
+            return node;
+        }
+
+        if (item < node->getData()) {
+            return findNode(item, node->left);
+        } else {
+            return findNode(item, node->right);
+        }
+    }
+
+    BSTNode<Data>* getRoot() { return root; }
 
     void deleteNodeWithOneChild(BSTNode<Data>* node, BSTNode<Data>* child) {
         // set a parent of a child to a node's parent
@@ -218,14 +211,15 @@ class BST {
         // set a child to a root if the node is a root
         if (node->parent == nullptr) {
             root = child;
-        }
-
-        if (node->parent->left == node) {
+        } else if (node->parent->left == node) {
             node->parent->left = child;
         } else if (node->parent->right == node) {
             node->parent->right = child;
         }
 
+        node->parent = nullptr;
+        node->left = nullptr;
+        node->right = nullptr;
         delete node;
     }
 
