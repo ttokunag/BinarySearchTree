@@ -123,6 +123,8 @@ class BST {
             deleteNodeWithOneChild(node, child);  // a private helper function
         }
 
+        isize--;
+        iheight = heightChecker(root) - 1;
         return true;
     }
 
@@ -362,7 +364,7 @@ class BST {
             return insertHelper(item, node->right, height);
         }
     }
-    
+
     /*
      * Description:
      * A helper function for find operation. Recursive calls itself until
@@ -464,6 +466,17 @@ class BST {
         resultPtr->push_back(node->getData());
 
         inorderHelper(resultPtr, node->right);
+    }
+
+    int heightChecker(BSTNode<Data>* node) {
+        if (node == nullptr) {
+            return 0;
+        }
+
+        int leftDepth = heightChecker(node->left);
+        int rightDepth = heightChecker(node->right);
+
+        return (leftDepth > rightDepth) ? leftDepth + 1 : rightDepth + 1;
     }
 };
 
