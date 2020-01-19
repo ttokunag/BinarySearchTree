@@ -181,7 +181,62 @@ class BST {
     }
 
     /** TODO */
-    bool deleteNode(const Data& item) { return deleteHelper(item, root); }
+    bool deleteNode(const Data& item) {
+        BSTNode<Data>* target = findNode(item, root);
+
+        if (target == nullptr) {
+            return false;
+        }
+
+        if (target->left == nullptr && target->right == nullptr) {
+            if (target == root) {
+                root = nullptr;
+            } else if (target->parent->left == target) {
+                target->parent->left = nullptr;
+                target->parent = nullptr;
+            } else if (target->parent->right == target) {
+                target->parent->right = nullptr;
+                target->parent = nullptr;
+            }
+            delete target;
+            return true;
+        }
+
+        else if (target->left != nullptr && target->right != nullptr) {
+            BSTNode<Data>* successor = target->successor();
+
+            Data successorVal = successor->getData();
+
+            deleteHelper(successorVal, root);
+
+            target->setData(successorVal);
+
+            return true;
+        }
+
+        else {
+            BSTNode<Data>* child =
+                (target->left != nullptr) ? target->left : target->right;
+
+            // if (target == root) {
+            //     root = child;
+            //     root->parent = nullptr;
+            // } else if (target->parent->left == target) {
+            //     target->parent->left = child;
+            //     child->parent = target->parent;
+            // } else if (target->parent->right == target) {
+            //     target->parent->right = child;
+            //     child->parent = target->parent;
+            // }
+
+            // delete target;
+
+            deleteNodeWithOneChild(target, child);
+            return true;
+        }
+
+        return false;
+    }
 
     bool deleteHelper(const Data& item, BSTNode<Data>* node) {
         BSTNode<Data>* target = findNode(item, root);
