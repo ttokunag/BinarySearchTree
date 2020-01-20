@@ -97,7 +97,13 @@ class BST {
         // findHelper description is right below this function
     }
 
-    /** TODO */
+    /*
+     * Description:
+     * Delete a node with a given data. If there is no such a node, return
+     * fasle. Otherwise, return true.
+     *
+     * @param const Data&: a data to remove.
+     */
     bool deleteNode(const Data& item) {
         // finds a node with a given data. findNode is implemeted below this
         // function
