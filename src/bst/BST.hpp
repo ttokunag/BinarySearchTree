@@ -130,7 +130,9 @@ class BST {
         }
 
         isize--;
+        // update the height of the BST with a private helper method
         iheight = heightChecker(root) - 1;
+
         return true;
     }
 
@@ -399,10 +401,19 @@ class BST {
         }
     }
 
+    /*
+     * Description:
+     * Returns a reference of a node with a given data
+     *
+     * @param const Data&: a data that this method looks for.
+     * @paran BSTNode<Data>*: a reference of a current node
+     */
     BSTNode<Data>* findNode(const Data& item, BSTNode<Data>* node) {
         if (node == nullptr) {
             return nullptr;
-        } else if (node->getData() == item) {
+        }
+        // return a current node if it has a given data
+        else if (node->getData() == item) {
             return node;
         }
 
