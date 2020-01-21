@@ -437,18 +437,31 @@ class BST {
         delete node;
     }
 
+    /*
+     * Description:
+     * A helper function for deleteNode funciton. Deletes a node with either a
+     * left or right child.
+     *
+     * @param BSTNode<Data>*: a reference of a node to delete
+     * @param BSTNode<Data>*: a reference of a child node
+     */
     void deleteNodeWithOneChild(BSTNode<Data>* node, BSTNode<Data>* child) {
         if (node == root) {
             root = child;
             root->parent = nullptr;
-        } else if (node->parent->left == node) {
+        }
+        // the case a node is a left child of its parent
+        else if (node->parent->left == node) {
             node->parent->left = child;
             child->parent = node->parent;
-        } else {
+        }
+        // the case a node is a right child of its parent
+        else {
             node->parent->right = child;
             child->parent = node->parent;
         }
 
+        // deallocates a memory for a node to delete
         delete node;
     }
 
