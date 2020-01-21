@@ -426,7 +426,7 @@ class BST {
 
     /*
      * Description:
-     * A helper function for deleteNode funciton. 
+     * A helper function for deleteNode funciton.
      * Deletes a node with no child
      *
      * @param BSTNode<Data>*: a reference of a node to delete
@@ -434,12 +434,12 @@ class BST {
     void deleteNodeWithNoChild(BSTNode<Data>* node) {
         if (node == root) {
             root = nullptr;
-        } 
+        }
         // the case a node is a left child of its parent
         else if (node->parent->left == node) {
             node->parent->left = nullptr;
             node->parent = nullptr;
-        } 
+        }
         // the case a node is a right child of its parent
         else {
             node->parent->right = nullptr;
@@ -478,11 +478,20 @@ class BST {
         delete node;
     }
 
+    /*
+     * Description:
+     * A helper function for deleteNode funciton. Deletes a node with two
+     * children.
+     *
+     * @param BSTNode<Data>*: a reference of a node to delete
+     */
     void deleteNodeWithTwoChildren(BSTNode<Data>* node) {
+        // Finds a successor of a given node. A given node value is repalced
+        // with the successor node value at the end.
         BSTNode<Data>* successor = node->successor();
 
         Data successorVal = successor->getData();
-
+        // Avoids duplicated values exist be removing a successor node
         deleteNode(successorVal);
 
         node->setData(successorVal);
