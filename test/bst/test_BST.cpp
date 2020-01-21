@@ -193,17 +193,18 @@ TEST(BSTTests, DELETE_TEST) {
     bst.insert(14);
     bst.insert(11);
 
-    // ASSERT_EQ(bst.deleteNode(1), true);
-    // ASSERT_EQ(bst.deleteNode(14), true);
-    // ASSERT_EQ(bst.deleteNode(6), true);
-    // ASSERT_EQ(bst.deleteNode(8), true);
-    // ASSERT_EQ(bst.deleteNode(4), true);
-    // ASSERT_EQ(bst.deleteNode(2), false);
-    // ASSERT_EQ(bst.deleteNode(13), false);
+    ASSERT_EQ(bst.deleteNode(1), true);
+    ASSERT_EQ(bst.deleteNode(14), true);
+    ASSERT_EQ(bst.deleteNode(6), true);
+    ASSERT_EQ(bst.deleteNode(8), true);
+    ASSERT_EQ(bst.deleteNode(3), true);
 
-    ASSERT_EQ(bst.height(), 3);
-    ASSERT_EQ(bst.deleteNode(4), true);
-    ASSERT_EQ(bst.deleteNode(7), true);
-    ASSERT_EQ(bst.deleteNode(11), true);
     ASSERT_EQ(bst.height(), 2);
+
+    ASSERT_EQ(bst.deleteNode(2), false);
+
+    ASSERT_EQ(bst.deleteNode(10), true);
+    ASSERT_EQ(bst.deleteNode(11), true);
+    ASSERT_EQ(bst.deleteNode(7), true);
+    ASSERT_EQ(bst.deleteNode(4), true);
 }
