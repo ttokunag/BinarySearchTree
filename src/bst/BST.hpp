@@ -520,7 +520,14 @@ class BST {
         inorderHelper(resultPtr, node->right);
     }
 
+    /*
+     * Description:
+     * Calculates the height of this BST.
+     *
+     * @param BSTNode<Data>*: a reference of a current node
+     */
     int heightChecker(BSTNode<Data>* node) {
+        // returns zero if such a node doesn't exist
         if (node == nullptr) {
             return 0;
         }
